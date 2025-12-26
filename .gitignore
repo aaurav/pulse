@@ -1,0 +1,22 @@
+# Rust build artifacts
+/target/
+
+# Cargo lock file (for libraries, ignore it; for binaries, keep it)
+# We're building a binary (CLI tool), so we'll keep Cargo.lock
+# But if you want to ignore it, uncomment the line below:
+# Cargo.lock
+
+# Debug and release builds
+**/*.rs.bk
+*.pdb
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS generated files
+Thumbs.db
