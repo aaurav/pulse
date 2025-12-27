@@ -109,6 +109,39 @@ PulseEvent::ProcessRunning {
 └─────────────────────────────────────────────────────┘
 ```
 
+╔═══════════════════════════════════════════════════════╗
+║           EVENT-BASED ARCHITECTURE (Pulse)            ║
+╚═══════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────┐
+│  1. EVENT DEFINITION (The Contract)                 │
+│     File: events.rs                                 │
+│     Role: Defines the shape of all messages         │
+│                                                     │
+│     pub enum PulseEvent {                          │
+│         ProcessRunning {                           │
+│             name: String,                          │
+│             is_running: bool,                      │
+│         }                                          │
+│     }                                              │
+└─────────────────────────────────────────────────────┘
+                           ↓
+                    "Used by both"
+                           ↓
+        ┌──────────────────┴──────────────────┐
+        ↓                                      ↓
+┌──────────────────────┐            ┌──────────────────────┐
+│  2. EVENT PRODUCER   │            │  3. EVENT CONSUMER   │
+│     (Watcher/Spy)    │            │     (Orchestrator)   │
+│                      │            │                      │
+│  File: spy_worker.rs │───event───→│  File: main.rs       │
+│                      │  (channel) │                      │
+│  Role:               │            │  Role:               │
+│  - Watch processes   │            │  - Setup system      │
+│  - Detect changes    │            │  - Spawn workers     │
+│  - Create events     │            │  - Receive events    │
+│  - Send via tx       │            │  - React/Handle      │
+└──────────────────────┘            └──────────────────────┘
 ## Project Structure
 ```
 pulse/
